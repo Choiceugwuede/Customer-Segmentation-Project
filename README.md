@@ -93,7 +93,12 @@ plt.show()```
 
 ### Data Preprocessing
 
-`-` Data Cleaning: misising values in each column handled based on 
+1. Data Cleaning: This involves
+
+   `-` Handling misising values in each column based on property and characteristic of columnm, for example, Column *online_order* had 360 missing values,based on **value_counts**, there was a appropriate distribution of values hence a forward fill method to fill in misssing values, syntax: ```t_copy['online_order'].fillna(t_copy['online_order'].mode()[0],inplace=True)```
+
+   `-` Format Standardizing: 
+   
 
 
 
