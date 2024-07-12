@@ -1,26 +1,37 @@
 # Extracting raw data from source and preprocessing for analysis and modelling.
 
-### Project Overview
+## Project Overview
 
-This project focuses on data extraction and preprocessing tasks to prepare raw data for analysis and modelling. 
-It includes techniques for importing data from excel to jupyter notebook, cleaning, transforming, and integrating datasets to ensure data quality and usability.
+This project focuses on customer segmentation through comprehensive analysis of customer behavior. As a Data Engineer, I was responsible for **data extraction**, **preprocessing**, and combining multiple datasets to create a **unified dataset** for analysis and modelling.
 
-### Data Source
+## Data Source
 
 An excel file dataset including the following sheets of data:
 
 `-` Transactions_data: This dataset included the transactions data of the customers across 
-all the different states in Australia.
+all the different states in Australia. Including:
+
+  - transaction_id: Unique identifier for each transaction 
+  
+  - customer_id: Identifier for the customer involved in the transaction 
+
+  - transaction_date: Date when the transaction occurred 
+
+  -  brand: Brand of the product 
+
+  - list_price: Listed price of the product at the time of the transaction 
+
+  - standard_cost: Standard cost of the product to the compan
 
 `-` NewCustomerList: This dataset included the new customers who visited the automobile 
-bike company recently.
+bike company recently (Initially lacking customer ID).
 
 `-` CustomerDemographic: This dataset included entire details of the Customer 
-Demographics.
+Demographics such as age, gender, and wealth segment.
 
-`-` CustomerAddress: This dataset included the address of the Customers.
+`-` CustomerAddress: This dataset included the address of the Customers including state and postal code.
 
-### Tools Used
+## Tools Used
 
 -**Programming Language**: Python
 
@@ -38,13 +49,15 @@ Demographics.
 
 -**Excel** (for initial data storage)
 
-### Installation
+## Installation
 
 1. Download Ananconda [here](https://www.anaconda.com/download).
 
 2. Open and run the Jupyter Notebook by entering *jupyter notebook* then click enter.
 
 3. Access the notebook in your browser and execute the extraction and preprocessing scripts.
+
+## Data Processing Workflow
 
 ### Data Extraction 
 
@@ -77,9 +90,9 @@ Same syntax applied to import the three remaining sheets.
 
 ### Exploratory Data Analysis (EDA) 
 
+- To understand the characteristics and structure of the data extracted 
 
-To understand the characteristics and structure of the data extracted and
-to identify its format, schema, and any initial quality issues such as missing values, outliers, or inconsistencies. 
+- To identify its format, schema, and any initial quality issues such as missing values, outliers, or inconsistencies. 
 
 `-` Check information in each column and their characteristics :```t_copy.head(5)``` , ```t_copy.shape```, ```t_copy.info()```
 
@@ -92,28 +105,59 @@ to identify its format, schema, and any initial quality issues such as missing v
 `-` Check for Outlier: through visualization ```t_copy.hist(figsize=(20,16))
 plt.show()```
 
+### Data Cleaning
+
+`-` Missing Values: Identified and replaced missing values using appropriate imputation techniques to maintain data quality. For example, Column *online_order* had 360 missing values,based on **value_counts**, there was an appropriate distribution of values hence a forward fill method to fill in misssing values, syntax: ```t_copy['online_order'].fillna(t_copy['online_order'].mode()[0],inplace=True)```
+
+`-` String Formatting: Standardized string formats across datasets (e.g., consistent capitalization, unified abbreviations).
+
+### Creating Customer IDs
+
+`-` For the NewCustomer List, I traced the last Customer ID from the Customer Demographics table and generated unique Customer IDs for newly onboarded customers.
+
+### Handling Non-Transactional Customers
+
+ `-`Removed customers from the final dataset who had details but no associated transactions, as they contributed to missing values and did not provide value for segmentation.
+
 ### Data Preprocessing
 
-#### Transaction Dataset
+`-` Aggregation: Combined transaction details based on Customer ID to create a summarized **Customer Behavior*** dataset, including metrics like:
+ - Average amount spent
+ - Total amount spent
+ - Most purchased brand
+ - Number of transactions
 
-1. Data Cleaning: This involves
+`-` Feature Engineering: 
+ - Transactions Table:
+   
+     - Created an RFM (Recency, Frequency, Monetary) column to quantify customer engagement.
+     - Added a Profit column to track the profitability of each transaction.
 
-   `-` Handling misising values in each column based on property and characteristic of columnm, for example, Column *online_order* had 360 missing values,based on **value_counts**, there was an appropriate distribution of values hence a forward fill method to fill in misssing values, syntax: ```t_copy['online_order'].fillna(t_copy['online_order'].mode()[0],inplace=True)```
+  - CustomerDemographic Table:
+    
+      - Created an Age column from the date of birth.
+      - Added an Age Group column to categorize customers into age ranges (e.g., 18-25, 26-35).
 
-   `-` Format Standardizing: This is to ensure the data adheres to consistent format. Check for the unique values of each column to unify abbreviations, ensure consistent capitalization and other standard formatting.
+ `-` Joining Datasets: Merged the Customer Behavior dataset with the other datasets:
 
-      To check for unique values in a column: Uisng the brand column in the Transaction table ```CustomerDemographic['gender'].unique()```
+   - Linked customer demographic information to understand customer profiles.
+   - Integrated address details for geographic analysis.
+   - Combined data from the new customer list to include insights on recent onboarding.
 
-2. Data Transformation:This involves 
+`-` Format Standardization: Ensured consistent formatting across all datasets for analysis readiness.
 
-    `-` Feature Engineering: creating new variables ideal for modelling and analysis from existing columns
+### Final Dataset
 
-    -RFM (Recency Frequency Monetary): This is a great analysis tool used to identify and segment customer based on their purchasing behaviour. This breakdwon was derived from 
-*transaction_date* column. The difference between the recent date and date of last transaction of each customer derived a variable that would stand as RFM value.
+The final dataset combines all relevant information, providing a full view of customer behavior and demographics, which was essential for effective segmentation and targeted marketing strategies.
 
-    -Profit: Profit column was derived from difference between *list_price* column(cost price) and *standard_cost*(selling price)
+### Conclusion
 
-3. Dataset Creation: Creating dataframes for customer behaviour (aggregates of each column grouped by customer_id). Each custoomer had multiple transactions, for better analysis and modelling, aggregate of each detail would de
+This project enhances the understanding of customer behavior by integrating various datasets and performing thorough data cleaning and feature engineering. This enables effective segmentation and personalized marketing efforts. 
+    
+
+
+
+
 
       
    
