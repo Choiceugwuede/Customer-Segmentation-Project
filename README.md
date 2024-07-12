@@ -77,6 +77,7 @@ Same syntax applied to import the three remaining sheets.
 
 ### Exploratory Data Analysis (EDA) 
 
+
 To understand the characteristics and structure of the data extracted and
 to identify its format, schema, and any initial quality issues such as missing values, outliers, or inconsistencies. 
 
@@ -93,11 +94,28 @@ plt.show()```
 
 ### Data Preprocessing
 
+#### Transaction Dataset
+
 1. Data Cleaning: This involves
 
-   `-` Handling misising values in each column based on property and characteristic of columnm, for example, Column *online_order* had 360 missing values,based on **value_counts**, there was a appropriate distribution of values hence a forward fill method to fill in misssing values, syntax: ```t_copy['online_order'].fillna(t_copy['online_order'].mode()[0],inplace=True)```
+   `-` Handling misising values in each column based on property and characteristic of columnm, for example, Column *online_order* had 360 missing values,based on **value_counts**, there was an appropriate distribution of values hence a forward fill method to fill in misssing values, syntax: ```t_copy['online_order'].fillna(t_copy['online_order'].mode()[0],inplace=True)```
 
-   `-` Format Standardizing: 
+   `-` Format Standardizing: This is to ensure the data adheres to consistent format. Check for the unique values of each column to unify abbreviations, ensure consistent capitalization and other standard formatting.
+
+      To check for unique values in a column: Uisng the brand column in the Transaction table ```CustomerDemographic['gender'].unique()```
+
+2. Data Transformation:This involves 
+
+    `-` Feature Engineering: creating new variables ideal for modelling and analysis from existing columns
+
+    -RFM (Recency Frequency Monetary): This is a great analysis tool used to identify and segment customer based on their purchasing behaviour. This breakdwon was derived from 
+*transaction_date* column. The difference between the recent date and date of last transaction of each customer derived a variable that would stand as RFM value.
+
+    -Profit: Profit column was derived from difference between *list_price* column(cost price) and *standard_cost*(selling price)
+
+3. Dataset Creation: Creating dataframes for customer behaviour (aggregates of each column grouped by customer_id). Each custoomer had multiple transactions, for better analysis and modelling, aggregate of each detail would de
+
+      
    
 
 
