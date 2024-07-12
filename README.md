@@ -1,4 +1,4 @@
-# Extracting raw data from source and preprocessing for analysis and modelling.
+# Data Extraction and Preprocessing: Building Foundations for Analysis and Modeling.
 
 ## Project Overview
 
